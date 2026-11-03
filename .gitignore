@@ -1,0 +1,31 @@
+# Build Artifacts
+build/
+bin/
+obj/
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# IDE & Editor Specific
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Large Data & Raw Datasets (Users can download/generate locally)
+data/*.tsv.gz
+data/title.basics.tsv
+data/title.ratings.tsv
+# Keep sample or cleaned data tracked if under GitHub size limit
+!data/movies_sample.tsv
+!data/download_dataset.py
+!data/README.md
+
+# Logs & Diagnostics
+*.log
+compile_commands.json
