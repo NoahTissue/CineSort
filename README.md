@@ -75,7 +75,7 @@ mingw32-make
 mkdir bin
 
 # Compile all source files
-g++ -std=c++20 src/*.cpp -Iinclude -O2 -o bin/cinesort.exe
+g++ -std=c++20 src/*.cpp -Iinclude -O2 -static -static-libgcc -static-libstdc++ -o bin/cinesort.exe
 
 # Execute
 ./bin/cinesort.exe

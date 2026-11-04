@@ -32,6 +32,12 @@ SortCriteria UI::promptSortCriteria() {
             }
         }
 
+        // Check if stdin reached End-Of-File (e.g. user pressed Ctrl+C/Ctrl+D or empty pipe)
+        if (std::cin.eof()) {
+            std::cout << "\n[Notice] Input stream closed (EOF). Exiting program.\n";
+            std::exit(0);
+        }
+
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "[Invalid input] Please enter 1, 2, or 3.\n\n";
@@ -50,6 +56,12 @@ SortOrder UI::promptSortOrder() {
             if (choice == 1 || choice == 2) {
                 return static_cast<SortOrder>(choice);
             }
+        }
+
+        // Check if stdin reached End-Of-File
+        if (std::cin.eof()) {
+            std::cout << "\n[Notice] Input stream closed (EOF). Exiting program.\n";
+            std::exit(0);
         }
 
         std::cin.clear();

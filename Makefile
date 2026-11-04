@@ -3,7 +3,7 @@
 # ==============================================================================
 
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -O2 -Iinclude
+CXXFLAGS = -std=c++20 -Wall -Wextra -O2 -Iinclude -static -static-libgcc -static-libstdc++
 
 SRCDIR = src
 INCDIR = include
@@ -19,12 +19,12 @@ OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(BINDIR)/%.o, $(SOURCES))
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(BINDIR)
+	@if not exist $(BINDIR) mkdir $(BINDIR)
 	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(TARGET)
 	@echo [Build] Successfully generated $(TARGET)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(BINDIR)
+	@if not exist $(BINDIR) mkdir $(BINDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: $(TARGET)

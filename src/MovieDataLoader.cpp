@@ -16,10 +16,13 @@ bool MovieDataLoader::loadFromTSV(const std::string& filepath,
     }
 
     std::string line;
-    // Read and discard header row if present
+    // Inspect first row: if it contains "tconst", it's a header and we skip it.
+    // If not, rewind to byte 0 so the while-loop can process movie #1.
     if (std::getline(file, line)) {
-        // If the first row does not look like a header (e.g., doesn't contain "tconst"),
-        // handle appropriately. Most IMDb datasets start with "tconst\t...".
+        if (line.find("tconst") == std::string::npos) {
+            file.clear();
+            file.seekg(0, std::ios::beg);
+        }
     }
 
     outMovies.clear();
@@ -49,6 +52,11 @@ bool MovieDataLoader::loadFromTSV(const std::string& filepath,
             int year = std::stoi(yearStr);
             int runtime = std::stoi(runtimeStr);
             int votes = std::stoi(votesStr);
+
+            // Domain sanity check: valid movie era, realistic runtimes, non-negative votes
+            if (year < 1888 || year > 2030 || runtime <= 0 || runtime > 1440 || votes < 0) {
+                continue;
+            }
 
             outMovies.emplace_back(std::move(tconst), std::move(title), year, runtime, votes);
             rowsRead++;
