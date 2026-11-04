@@ -1,4 +1,5 @@
 #include "Movie.hpp"
+#include <iostream>
 #include <iomanip>
 
 namespace CineSort {
@@ -27,7 +28,7 @@ void Movie::printRow(int rank) const {
         std::cout << std::setw(4) << rank << " | ";
     }
     
-    // Truncate title if longer than 36 characters for terminal alignment
+    // Shorten title if too long to keep the columns aligned
     std::string displayTitle = primaryTitle;
     if (displayTitle.length() > 36) {
         displayTitle = displayTitle.substr(0, 33) + "...";

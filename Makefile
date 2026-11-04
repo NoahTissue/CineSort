@@ -31,5 +31,5 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	@rm -rf $(BINDIR)
+	@if exist $(BINDIR) rmdir /s /q $(BINDIR)
 	@echo [Clean] Cleaned build artifacts.
