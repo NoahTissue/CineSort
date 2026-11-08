@@ -52,8 +52,14 @@ int main(int argc, char* argv[]) {
         std::cout << "Completed in " << radixMetrics.elapsedMilliseconds << " ms\n";
     }
 
-    // Show top 10 movies
-    UI::displayTopMovies(masterDataset, 10, criteria);
+    // Show top 10 movies from the sorted results
+    if (radixMetrics.elapsedMilliseconds > 0.0) {
+        UI::displayTopMovies(radixDataset, 10, criteria);
+    } else if (heapMetrics.elapsedMilliseconds > 0.0) {
+        UI::displayTopMovies(heapDataset, 10, criteria);
+    } else {
+        UI::displayTopMovies(masterDataset, 10, criteria);
+    }
 
     return 0;
 }
