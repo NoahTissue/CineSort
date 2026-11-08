@@ -38,28 +38,25 @@ int main(int argc, char* argv[]) {
     std::vector<Movie> heapDataset = masterDataset;
     std::vector<Movie> radixDataset = masterDataset;
 
-    // Erik's heap sort
-    std::cout << "\nRunning Heap Sort (Erik)...\n";
+    // 1. Heap Sort
+    std::cout << "\nRunning Heap Sort...\n";
     HeapSortMetrics heapMetrics = HeapSort::sort(heapDataset, criteria, order);
-    if (heapMetrics.elapsedMilliseconds > 0.0) {
-        std::cout << "Completed in " << heapMetrics.elapsedMilliseconds << " ms\n";
-    }
+    bool heapValid = Benchmark::verifySorted(heapDataset, criteria, order);
+    std::cout << "Completed in " << heapMetrics.elapsedMilliseconds << " ms "
+              << "(Verification: " << (heapValid ? "PASSED" : "FAILED") << ")\n";
 
-    // Fareed's radix sort
-    std::cout << "\nRunning Radix Sort (Fareed)...\n";
+    // 2. Radix Sort
+    std::cout << "\nRunning Radix Sort...\n";
     RadixSortMetrics radixMetrics = RadixSort::sort(radixDataset, criteria, order);
-    if (radixMetrics.elapsedMilliseconds > 0.0) {
-        std::cout << "Completed in " << radixMetrics.elapsedMilliseconds << " ms\n";
-    }
+    bool radixValid = Benchmark::verifySorted(radixDataset, criteria, order);
+    std::cout << "Completed in " << radixMetrics.elapsedMilliseconds << " ms "
+              << "(Verification: " << (radixValid ? "PASSED" : "FAILED") << ")\n";
 
-    // Show top 10 movies from the sorted results
-    if (radixMetrics.elapsedMilliseconds > 0.0) {
-        UI::displayTopMovies(radixDataset, 10, criteria);
-    } else if (heapMetrics.elapsedMilliseconds > 0.0) {
-        UI::displayTopMovies(heapDataset, 10, criteria);
-    } else {
-        UI::displayTopMovies(masterDataset, 10, criteria);
-    }
+    // 3. Comparison Summary
+    Benchmark::printComparison(heapMetrics, radixMetrics, masterDataset.size(), criteria);
+
+    // 4. Show top 10 movies from the sorted results
+    UI::displayTopMovies(heapDataset, 10, criteria);
 
     return 0;
 }
